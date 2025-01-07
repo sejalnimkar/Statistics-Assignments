@@ -1,0 +1,493 @@
+---
+title: "PS05"
+author: "Sejal Nimkar"
+date: "2024-11-08"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+## Q1) Blaise Pascal, the French theologian and mathematician, argued that we cannot know whether or not God exists, but that we must behave as though we do. He submitted that the consequences of wrongly behaving as though God does not exist are greater than the consequences of wrongly behaving as though God does exist, concluding that it is better to err on the side of caution and act as though God exists. This argument is known as Pascal’s Wager. Formulate Pascal’s Wager as a hypothesis testing problem. What are the Type I and Type II errors? On whom did Pascal place the burden of proof, believers or nonbelievers?
+
+Ans: From Pascal's point of view, the hypotheses formed would be as follows:
+
+Null Hypothesis \((H_0)\) is: God exists and the consequences after wrongly behaving would be less severe as compared to wrongly behaving as if God doesn't exist
+
+Alternative Hypothesis \((H_1)\) is: God does not exist and that the consequences after behaving wrongly are greater.
+
+The Type 1 error here is believing that God does not exist when in truth, it exists.
+
+The Type 2 error here is believing that God exists when in truth, it does not exist.
+
+The burden of proof is placed on non-believers to provide the evidence that God does not exist.
+
+\newpage
+
+## Q2) The U.S. Food and Drug Administration requires evaporated milk to contain “not less than 23 percent by weight of total milk solids.” A company that sells evaporated milk is sued by a group of consumers who are concerned that the company’s product does not meet FDA standards. The two parties agree to binding arbitration. If the consumers win, the company will pay damages and enhance its product; if the company wins, then the consumers will issue a public apology. To resolve the dispute, the arbiter commissions a neutral study in which the percent by weight of total milk solids will be measured in a random sample of n = 225 packages produced by the company. Both parties agree to a standard of proof \(\alpha = 0.05\), but they disagree on which party should bear the burden of proof.
+
+  **(a) State appropriate null and alternative hypotheses from the perspective of the consumers.**
+
+Ans: From the perspective of the consumers:
+ 
+ Null hypothesis \(H_0:\) The evaporated milk contains more than 23% of milk solids and the product meet's FDA standards.
+ 
+ \(H_0: \mu \geq 23\)
+ 
+ Alternative hypothesis \(H_1:\) The evaporated milk contains less than or equal to 23% of milk solids and the product does not meet FDA standards.
+ 
+ \(H_1: \mu < 23\)
+
+\vspace{2cm}
+
+  **(b) State appropriate null and alternative hypotheses from the perspective of the company.** 
+
+Ans: From the perspective of the company:
+ 
+ Null hypothesis \(H_0:\) The evaporated milk contains less than or equal to 23% of milk solids and the product does not meet FDA standards.
+ 
+ \(H_0: \mu \leq 23\)
+ 
+ Alternative hypothesis \(H_1:\) The evaporated milk contains more than 23% of milk solids and the product meet's FDA standards.
+ 
+ \(H_1: \mu > 23\)
+
+\vspace{2cm}
+
+  **(c) Suppose that the random sample reveals a sample mean of \(\bar{x} = 22.8\) percent with a sample standard deviation of \(s = 3\) percent. Compute \(t\) , the value of the test statistic.** 
+
+Ans: The test statistic is given as follows:
+
+\(t = \displaystyle \frac{\bar{x} - \mu}{\frac{s}{\sqrt{n}}}\)
+
+We have the following information:
+
+\(\mu = 23\)
+
+\(\bar{x} = 22.8\)
+
+\(s = 3\)
+
+\(n = 225\)
+
+\(\therefore t = \displaystyle \frac{22.8 - 23}{\frac{3}{\sqrt{225}} } \)
+
+```{r}
+t <- (22.8-23)/(3/sqrt(225))
+t
+
+```
+
+\vspace{2cm} 
+
+(d) From the consumers’ perspective, what action should be taken? Why? 
+
+Ans: 
+
+```{r}
+# Given values
+t_value <- -1
+df <- 224
+
+# Calculate p-value for a left-tailed test
+p_value <- pt(t_value, df)
+p_value
+
+```
+Given that the p-value is approximately \(0.159\), which is greater than the significance level of\( \alpha= 0.05\) the consumers would fail to reject the null hypothesis. This means there is insufficient statistical evidence to support the consumers’ claim that the milk solids content is less than the FDA requirement of 23%.
+
+\vspace{2cm}
+
+(e) From the company’s perspective, what action should be taken? Why?
+
+Ans:
+
+```{r}
+# Given values
+t_value <- -1
+df <- 224
+
+# Calculate p-value for a right-tailed test
+p_value <- 1 - pt(t_value, df)
+p_value
+
+```
+Given the p-value of approximately 0.841 from the right-tailed test, which is much greater than the significance level of \(\alpha = 0.05\) the company would fail to reject the null hypothesis. This means there is insufficient statistical evidence to support the claim that the milk solids content is more than 23%.
+
+\newpage
+
+## Q3) A test for psychic powers consists of guessing which side of a screen a picture will appear on left or right. In one trial of the test, a student has to guess “Left” or “Right”; then R’s random number generator will randomly choose one side of the screen to display a picture of a star. The student repeats the process for a total of 20 trials.
+
+  **(a) In other words, the null hypothesis for a particular student is that they don't have psychic powers and are just randomly guessing. The alternative hypothesis is that they do have psychic powers and can do better than randomly guessing in the long run. Express this as a test of a population mean. Hint: how does this relate to Bernoulli trials?**
+  
+  Ans: In this scenario, we're conducting a hypothesis test to determine if a student has psychic abilities based on their success rate in guessing which side a picture will appear on. Each trial is a Bernoulli trial with two possible outcomes: correct (success) or incorrect (failure). If the student is just guessing, we expect their probability of success to be \(p = 0.5\), meaning they would guess correctly about half the time in the long run. Let \(\mu = 0.5\) as the population mean for the student’s success rate over many trials. A success rate of 0.5 would indicate no psychic ability 
+  
+ Null hypothesis \(H_0:\) The student does not have psychic powers and are just randomly guessing.
+ 
+ \(H_0 : \mu \leq 0.5\)
+ 
+ Alternative hypothesis \(H_1:\) The student has psychic powers.
+ 
+ \(H_1 : \mu > 0.5\)
+
+  
+\vspace{2cm}  
+  
+  **(b) Suppose the null hypothesis is true for a particular student. Let be the number of times the student guesses correctly. Is there intriguing evidence that the student has psychic powers if the student guesses 13 right out of 20?**
+    
+  Ans: If we assume the null hypothesis is true (i.e., the student is just guessing), then the number of correct guesses out of 20 trials can be modeled by a binomial distribution with parameters \( n = 20 \) trials and \( p = 0.5 \) probability of a correct guess on each trial. We can then calculate the probability of the student correctly guessing 13 or more times to determine if this result provides intriguing evidence of psychic ability.
+
+To do this, we calculate the **p-value** for observing 13 or more correct guesses under the null hypothesis:
+
+Since this is a series of independent guesses (success/failure), we use the binomial distribution. For large samples, the binomial distribution can be approximated with the normal distribution. The test statistic \( z \) is calculated as follows:
+
+\(
+z = \frac{\hat{p} - p_0}{\sqrt{\frac{p_0(1 - p_0)}{n}}}
+\)
+
+Where:
+\( \hat{p} = \frac{x}{n} \) is the sample proportion (number of correct guesses divided by total guesses),
+
+\( p_0 = 0.5 \) is the null hypothesis proportion,
+
+\( n = 20 \) is the total number of trials (guesses),
+
+\( x = 13 \) is the number of correct guesses.
+
+Substituting the values into the formula:
+
+\(
+\hat{p} = \frac{13}{20} = 0.65
+\)
+
+\(
+z = \displaystyle \frac{0.65 - 0.5}{\sqrt{\frac{0.5(1 - 0.5)}{20}}} = \frac{0.15}{\sqrt{\frac{0.25}{20}}} = \frac{0.15}{\sqrt{0.0125}} = \frac{0.15}{0.1118} \approx 1.34
+\)
+
+Using the \( z \)-score of 1.34, we calculate the p-value in R as follows:
+
+```{r}
+# Given values
+z_score <- 1.34
+
+# Calculate p-value
+p_value <- 1 - pnorm(z_score)
+p_value
+
+```
+The p value is greater than significance level \(\alpha = 0.05\). Thus we shall fail to reject the null hypothesis that the students do not have any psychic powers.
+
+\vspace{2cm}  
+
+  **(c) Repeat part b if a student guesses 18 right out of 20.**
+    
+  Ans: Similar to the above, we calculate the \( z \)-statistic as follows:
+
+\(
+z = \frac{\hat{p} - p_0}{\sqrt{\frac{p_0(1 - p_0)}{n}}}
+\)
+
+Where:
+
+\( \hat{p} = \frac{x}{n} = \frac{18}{20} = 0.9 \)
+
+\( p_0 = 0.5 \)
+
+\( n = 20 \)
+  
+\( \therefore
+z = \displaystyle \frac{0.9 - 0.5}{\sqrt{\frac{0.5(1 - 0.5)}{20}}} = \frac{0.4}{\sqrt{\frac{0.25}{20}}} = \frac{0.4}{\sqrt{0.0125}} = \frac{0.4}{0.1118} \approx 3.58
+\)
+
+We shall use the following R code to calculate the \( p \)-value:
+
+```{r}
+# Given values
+z_score <- 3.58
+
+# Calculate one-tailed p-value
+p_value <- 1 - pnorm(z_score)
+p_value
+```
+
+Given that the one-tailed p-value is \(0.00017179\), which is far less than the significance level \(\alpha = 0.05\), we would reject the null hypothesis. This result provides strong evidence to support the claim that the student may have psychic powers, as the probability of achieving 18 correct guesses out of 20 by random chance is extremely low.
+  
+\newpage
+
+## Q4) Use the variable dep_delay from the data frame flights from the package nycflights23 (you need to install this package in R first)
+
+   **(a) Treat the variable arr_delay as the population of interest. Create a vector that contains the information of arr_delay without missing values (use na.omit( ) to remove missing values when creating your vector).**
+   
+   Ans:
+   
+```{r}
+
+library(nycflights13)
+
+# Create a vector of arr_delay without missing values
+arr_delay_vector <- na.omit(flights$arr_delay)
+head(arr_delay_vector)
+
+```
+   
+\vspace{2cm}
+   
+  **(b) Let \(X\) be a random variable that assigns the arrival delay time to a randomly selected flight from this population. Study the distribution of \(X\) by obtaining \(EX\),\(VarX\) and \(SD(X)\) 5-number summary, and \(IQR\), as well as plots (histogram, boxplot, kernel density plot, and QQ-plot). Comment on whether this distribution comes from a normal distribution.**
+  
+  Ans:
+  
+```{r}
+
+# Calculate EX (mean), VarX (variance), SD(X) (standard deviation)
+EX <- mean(arr_delay_vector)
+VarX <- var(arr_delay_vector)
+SDX <- sd(arr_delay_vector)
+
+# Obtain 5-number summary and interquartile range (IQR)
+five_number_summary <- fivenum(arr_delay_vector)
+IQR_value <- IQR(arr_delay_vector)
+
+# Print results
+cat("Mean (EX):", EX, "\n")
+cat("Variance (VarX):", VarX, "\n")
+cat("Standard Deviation (SD(X)):", SDX, "\n")
+cat("5-Number Summary:", five_number_summary, "\n")
+cat("Interquartile Range (IQR):", IQR_value, "\n")
+
+# Plots to visualize the distribution
+
+# Histogram
+hist(arr_delay_vector, main = "Histogram of Arrival Delays", 
+     xlab = "Arrival Delay (minutes)", col = "skyblue", border = "black")
+
+# Boxplot
+boxplot(arr_delay_vector, main = "Boxplot of Arrival Delays", 
+        ylab = "Arrival Delay (minutes)")
+
+# Kernel Density Plot
+plot(density(arr_delay_vector), 
+     main = "Kernel Density Plot of Arrival Delays", xlab = "Arrival Delay (minutes)", 
+     ylab = "Density", col = "blue")
+
+# QQ-Plot
+qqnorm(arr_delay_vector, main = "QQ-Plot of Arrival Delays")
+qqline(arr_delay_vector, col = "red")
+
+```
+\vspace{1cm}
+The distribution of arrival delays appears heavily skewed to the right, with many outliers and significant deviations from normality, as shown by the plots. This suggests that arrival delays do not follow a normal distribution
+
+\vspace{2cm}
+  
+  **(c) Using set.seed(100), get a sample of 150 departure delays from your population. Pretend now that you only have information about this sample and have no information about the population. Try to find evidence that the average arrival delay for all the flights in this population is greater than 15 minutes. What do you conclude? Use \(\alpha = 0.03\)**
+  
+  Ans: To test if the average arrival delay for all flights in the population is greater than 15 minutes, we will conduct a one-sample t-test using a sample of 150 arrival delays. We will use a significance level \(\alpha = 0.03\)
+  
+The hypothesis are as follows:
+
+Null Hypothesis \(H_0\) : The average arrival delay \(\mu\) is 15 minutes or less.
+
+\(H_0: \mu \leq 15 \)
+
+Alternative hypothesis \(H_1\): The average arrival delay \(\mu\) is greater than 15 minutes 
+
+\(H_1: \mu > 15 \) 
+
+If the p-value is less than \(\alpha=0.03\), we reject the null hypothesis in favor of the alternative hypothesis, suggesting evidence that the average delay is greater than 15 minutes.
+
+The z-score is calculated using the formula:
+\(
+z = \frac{\bar{X} - \mu_0}{\frac{s}{\sqrt{n}}}
+\)
+where:
+- \( \bar{X} \) is the sample mean,
+
+- \( \mu_0 = 15 \) is the hypothesized population mean,
+
+- \( s \) is the sample standard deviation, and
+
+- \( n = 150 \) is the sample size.
+   
+```{r}
+# Set seed for reproducibility
+set.seed(100)
+
+# Take a sample of 150 arrival delays
+sample_arr_delay <- sample(arr_delay_vector, 150)
+
+# Calculate sample mean and standard deviation
+sample_mean <- mean(sample_arr_delay)
+sample_sd <- sd(sample_arr_delay)
+n <- 150
+mu_0 <- 15  # Hypothesized population mean
+
+# Calculate z-score
+z_score <- (sample_mean - mu_0) / (sample_sd / sqrt(n))
+
+# Calculate one-tailed p-value
+p_value <- 1 - pnorm(z_score)
+
+# Print results
+cat("Z-score:", z_score, "\n")
+cat("P-value:", p_value, "\n")
+
+# Decision based on alpha = 0.03
+if (p_value < 0.03) {
+  cat("Conclusion: Reject the null hypothesis. 
+      There is evidence that the average arrival delay is greater than 15 minutes.\n")
+} else {
+  cat("Conclusion: Fail to reject the null hypothesis. 
+      There is not enough evidence to conclude that the average arrival delay is greater than 15 minutes.\n")
+}
+
+
+```
+\vspace{2cm}
+
+**(d) Use the same sample and assumption as in part c, and test the claim that, on average, there is no arrival delay, that is, flights arrive on time or earlier, on average (i.e., try to find evidence of the contrary).**
+  
+  Ans: We shall redefine our hypothesis for the above claim where:
+  
+
+Null Hypothesis \(H_0\) : The average arrival delay \(\mu\) is more than or equal to 0 minutes.
+
+\(H_0: \mu \geq 0 \)
+
+Alternative hypothesis \(H_1\): There is no average arrival delay and \(\mu\) is less than 0 minutes. 
+
+\(H_1: \mu < 0 \) 
+  
+If the p-value is less than \(\alpha=0.03\), we reject the null hypothesis in favor of the alternative hypothesis, suggesting evidence that the average delay is greater than 15 minutes.
+
+The z-score can be calculated using the formula:
+\(
+z = \frac{\bar{X} - \mu_0}{\frac{s}{\sqrt{n}}}
+\)
+where:
+- \( \bar{X} \) is the sample mean,
+
+- \( \mu_0 = 0 \) is the hypothesized population mean,
+
+- \( s \) is the sample standard deviation, and
+
+- \( n = 150 \) is the sample size.
+  
+```{r}
+# Set seed for reproducibility
+set.seed(100)
+
+# Calculate sample mean and standard deviation
+sample_mean <- mean(sample_arr_delay)
+sample_sd <- sd(sample_arr_delay)
+n <- 150
+mu_0 <- 0  # Hypothesized population mean where the flights arrive on time or earlier
+
+# Calculate z-score
+zscore <- (sample_mean - mu_0) / (sample_sd / sqrt(n))
+
+# Calculate one-tailed p-value
+p_val <- pnorm(z_score)
+
+# Print results
+cat("Z-score:", zscore, "\n")
+cat("P-value:", p_val, "\n")
+
+# Decision based on alpha = 0.03
+if (p_value < 0.03) {
+  cat("Conclusion: Reject the null hypothesis. 
+      There is evidence that flights arrive on time or earlier. 
+      The average arrival delay is less than or equal to 0 minutes.\n")
+} else {
+  cat("Conclusion: Fail to reject the null hypothesis. 
+      There is not enough evidence to conclude that flights arrive on time or earlier
+      The average arrival time is more than or equal to 0 minutes.\n")
+}
+```
+   
+\vspace{2cm}
+  
+  **(e) Using your information of the entire population, was your decision in part c correct or did you commit a Type I or a Type II error? Explain.**
+  
+  Ans: 
+  
+```{r}
+
+# Mean of the entire population:
+delay_mean<- mean(arr_delay_vector)
+
+delay_mean
+```
+Given the population mean is 6.90 (which is less than 15 minutes), my conclusion was correct. There was indeed insufficient evidence to conclude that the average arrival delay was greater than 15 minutes. No error was committed in part (c).
+
+   
+\vspace{2cm}
+  
+  **(f) Using your information of the entire population, was your decision in part d correct or did you commit a Type I or a Type II error? Explain.**
+  
+  Ans: Similarly,e the population mean is 6.90 (greater than 0), my conclusion in part (d) is correct. There was insufficient evidence to conclude that flights arrive on time or earlier on average. Thus, no error was committed in part (d). 
+   
+\newpage
+
+## Q5) Data set fandango (library fivethirtyeight ). Using set.seed(100) take a sample of 60 films and try to find evidence that the average metacritic critic score is less than 70. State the null and alternative hypotheses, and obtain the test statistic, p-value, and conclusion.
+
+Ans: Let's write the hypothesis:
+
+Null Hypothesis \(H_0\) : Metacritic score is greater than or equal to 70.
+
+\(H_0: \mu \geq 70 \)
+
+Alternative hypothesis \(H_1\): Metacritic score is less than 70.
+
+\(H_1: \mu < 70 \) 
+
+If the p-value is less than (let \(\alpha=0.03\)), we reject the null hypothesis in favor of the alternative hypothesis, suggesting evidence that the metacritic score is less than 70.
+
+And the z-score can be calculated using the formula:
+\(
+z = \frac{\bar{X} - \mu_0}{\frac{s}{\sqrt{n}}}
+\)
+where:
+- \( \bar{X} \) is the sample mean,
+
+- \( \mu_0 = 70 \) is the hypothesized population mean,
+
+- \( s \) is the sample standard deviation, and
+
+- \( n = 60 \) is the sample size.
+
+
+```{r}
+library(fivethirtyeightdata)
+data("fandango")
+
+# Set seed and take a sample of 60 films
+set.seed(100)
+sample_fandango <- fandango[sample(1:nrow(fandango), 60), ]
+
+# Calculate the sample mean and standard deviation for Metacritic critic score
+sample_mean_fandango <- mean(sample_fandango$metacritic)
+sample_sd_fandango <- sd(sample_fandango$metacritic)
+n_fandango <- 60
+mu_fandango <- 70  # Hypothesized mean
+
+# Calculate the z-test statistic
+z <- (sample_mean_fandango - mu_fandango) / (sample_sd_fandango / sqrt(n_fandango))
+
+# Calculate one-tailed p-value
+pvalue <- pnorm(z)
+
+# Print results
+cat("Z-score:", z, "\n")
+cat("P-value:", pvalue, "\n")
+
+# Decision based on alpha = 0.03
+if (pvalue < 0.03) {
+  cat("Conclusion: Reject the null hypothesis.
+  There is evidence that metacritic score is less than 70
+      \n")
+} else {
+  cat("Conclusion: Fail to reject the null hypothesis. 
+  There is not enough evidence to conclude that metacritic score is less than 70.
+      \n")
+}
+```
+
